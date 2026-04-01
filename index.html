@@ -1,791 +1,1027 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Zenora Play – Stream Everything. One Plan.</title>
-<link rel="preconnect" href="https://api.fontshare.com" />
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --pink:    #FF6CD2;
-    --violet:  #5641FF;
-    --sky:     #ACD0FF;
-    --dark:    #292929;
-    --white:   #FFFFFF;
-    --bg1:     #0D0A1A;
-    --bg2:     #1A0D2E;
-    --bg3:     #2D1060;
-    --glass:   rgba(255,255,255,0.06);
-    --glass-border: rgba(255,255,255,0.12);
-  }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>Zenora Play – Stream Everything. One Plan.</title>
+  <meta name="description" content="Zenora Play – 10,000+ LIVE TV Channels & Unlimited Movies & TV Shows. Your complete streaming hub. Try 24 hours for ₹19."/>
+  <meta name="robots" content="index,follow"/>
+  <meta property="og:title" content="Zenora Play – Stream Everything. One Plan."/>
+  <meta property="og:description" content="10,000+ LIVE TV Channels & Unlimited Movies & TV Shows. Cancel cable and every OTT — one plan does it all."/>
+  <!-- Satoshi font from Fontshare -->
+  <link rel="preconnect" href="https://api.fontshare.com"/>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --bg:#0B0617;
+      --surf:#130B26;
+      --surf2:#1A1035;
+      --b1:rgba(255,255,255,.07);
+      --b2:rgba(255,255,255,.13);
+      /* Primary palette from image */
+      --pink:#FF6CD2;
+      --pink2:#FF8FDE;
+      --pink-d:rgba(255,108,210,.13);
+      --pink-g:rgba(255,108,210,.28);
+      --indigo:#5641FF;
+      --indigo2:#7060FF;
+      --sky:#ACD0FF;
+      --dark:#292929;
+      --white:#FFFFFF;
+      /* Status */
+      --green:#34D399;
+      --red:#F87171;
+      --txt:#F5F3FF;
+      --txt2:#C4B8E8;
+      --muted:#7A6EA0;
+      --r:16px;
+    }
+    *,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    html{scroll-behavior:smooth;overflow-x:hidden;}
+    body{
+      margin:0;
+      font-family:'Satoshi',system-ui,sans-serif;
+      background:var(--bg);
+      color:var(--txt);
+      overflow-x:hidden;
+      width:100%;
+      max-width:100vw;
+    }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Grid overlay */
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:linear-gradient(rgba(86,65,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(86,65,255,.03) 1px,transparent 1px);
+      background-size:52px 52px;
+      mask-image:radial-gradient(ellipse 90% 65% at 50% 0%,black 20%,transparent 75%);
+      -webkit-mask-image:radial-gradient(ellipse 90% 65% at 50% 0%,black 20%,transparent 75%);
+    }
 
-  html { scroll-behavior: smooth; }
+    /* Gradient mesh background */
+    body::after{
+      content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%,rgba(86,65,255,.18),transparent),
+        radial-gradient(ellipse 60% 40% at 80% 20%,rgba(255,108,210,.12),transparent),
+        radial-gradient(ellipse 70% 60% at 50% 100%,rgba(86,65,255,.14),transparent);
+    }
 
-  body {
-    font-family: 'Satoshi', sans-serif;
-    background: var(--bg1);
-    color: var(--white);
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
+    /* Ambient blobs */
+    .blob{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
+    .b1{width:580px;height:580px;background:radial-gradient(circle,rgba(86,65,255,.14),transparent 70%);top:-180px;left:-80px;}
+    .b2{width:420px;height:420px;background:radial-gradient(circle,rgba(255,108,210,.10),transparent 70%);top:35%;right:-100px;}
+    .b3{width:360px;height:360px;background:radial-gradient(circle,rgba(172,208,255,.07),transparent 70%);bottom:8%;left:15%;}
 
-  /* ── GRADIENT BG ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% -10%, rgba(86,65,255,0.55) 0%, transparent 60%),
-      radial-gradient(ellipse 70% 50% at 80% 20%,  rgba(255,108,210,0.35) 0%, transparent 55%),
-      radial-gradient(ellipse 90% 70% at 50% 80%,  rgba(86,65,255,0.45) 0%, transparent 65%),
-      linear-gradient(160deg, #0D0A1A 0%, #1e0a3c 35%, #3b1580 65%, #5641ff44 100%);
-    pointer-events: none;
-  }
+    main,header,footer,section{position:relative;z-index:2;}
 
-  /* noise overlay */
-  body::after {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.04;
-    pointer-events: none;
-  }
+    /* ── HEADER ── */
+    header{
+      position:sticky;top:0;z-index:80;
+      background:rgba(11,6,23,.88);
+      border-bottom:1px solid rgba(86,65,255,.15);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    }
 
-  section, nav, footer { position: relative; z-index: 1; }
+    /* ── LOGO ── */
+    .logo{
+      font-family:'Satoshi',sans-serif;font-weight:900;font-size:1.22rem;
+      background:linear-gradient(110deg,#FF6CD2,#ACD0FF 60%,#5641FF);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;text-decoration:none;letter-spacing:-.01em;
+    }
 
-  /* ── NAV ── */
-  nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 48px;
-    backdrop-filter: blur(20px);
-    background: rgba(13,10,26,0.55);
-    border-bottom: 1px solid var(--glass-border);
-    position: sticky; top: 0; z-index: 100;
-  }
-  .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.5px; }
-  .logo span { color: var(--pink); }
-  .nav-links { display: flex; align-items: center; gap: 32px; }
-  .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--white); }
-  .btn-nav {
-    background: linear-gradient(135deg, var(--violet), var(--pink));
-    color: #fff; border: none; padding: 10px 22px;
-    border-radius: 100px; font-size: 0.88rem; font-weight: 700;
-    cursor: pointer; transition: opacity 0.2s, transform 0.2s;
-    white-space: nowrap;
-  }
-  .btn-nav:hover { opacity: 0.88; transform: translateY(-1px); }
+    /* ── BUTTONS ── */
+    .btn-primary{
+      display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+      background:linear-gradient(135deg,#FF6CD2,#5641FF);
+      color:#fff;font-family:'Satoshi',sans-serif;font-weight:700;
+      border-radius:12px;padding:.85rem 1.8rem;border:none;cursor:pointer;
+      text-decoration:none;transition:transform .18s,box-shadow .18s,opacity .18s;
+      box-shadow:0 4px 28px rgba(255,108,210,.32);
+      white-space:normal;text-align:center;max-width:100%;font-size:inherit;
+    }
+    .btn-primary:hover{opacity:.9;box-shadow:0 8px 40px rgba(255,108,210,.48);transform:translateY(-2px);}
+    .btn-primary:active{transform:scale(.97);}
 
-  /* ── HERO ── */
-  .hero {
-    text-align: center;
-    padding: 110px 24px 80px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    border: 1px solid rgba(255,108,210,0.35);
-    background: rgba(255,108,210,0.08);
-    padding: 6px 16px; border-radius: 100px;
-    font-size: 0.78rem; font-weight: 500; color: var(--pink);
-    margin-bottom: 28px; letter-spacing: 0.5px;
-  }
-  .hero h1 {
-    font-size: clamp(2.6rem, 6vw, 5rem);
-    font-weight: 900; line-height: 1.08;
-    letter-spacing: -2px; margin-bottom: 22px;
-  }
-  .hero h1 .grad {
-    background: linear-gradient(90deg, var(--pink) 0%, var(--sky) 50%, var(--violet) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero p {
-    font-size: 1.15rem; color: rgba(255,255,255,0.65);
-    max-width: 560px; margin: 0 auto 40px; line-height: 1.7;
-  }
-  .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--violet) 0%, var(--pink) 100%);
-    color: #fff; border: none; padding: 15px 32px; border-radius: 100px;
-    font-size: 1rem; font-weight: 700; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 8px 32px rgba(86,65,255,0.45);
-    text-decoration: none; display: inline-block;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(86,65,255,0.6); }
-  .btn-secondary {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    color: #fff; padding: 15px 32px; border-radius: 100px;
-    font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none;
-    transition: background 0.2s; display: inline-block; backdrop-filter: blur(8px);
-  }
-  .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+    .btn-ghost{
+      display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+      background:rgba(255,255,255,.05);color:var(--txt);font-weight:600;
+      border-radius:12px;padding:.85rem 1.8rem;
+      border:1px solid rgba(172,208,255,.18);
+      cursor:pointer;text-decoration:none;transition:background .18s,border-color .18s;font-family:'Satoshi',sans-serif;font-size:inherit;
+    }
+    .btn-ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(172,208,255,.3);}
 
-  /* replaces row */
-  .replaces {
-    display: flex; align-items: center; justify-content: center;
-    flex-wrap: wrap; gap: 10px; margin: 44px auto 0; max-width: 680px;
-    font-size: 0.82rem; color: rgba(255,255,255,0.55);
-  }
-  .replaces span {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    padding: 6px 14px; border-radius: 100px; font-weight: 500;
-    backdrop-filter: blur(6px);
-  }
+    .btn-indigo{
+      display:inline-flex;align-items:center;justify-content:center;gap:.45rem;
+      background:rgba(86,65,255,.12);color:#ACD0FF;font-weight:700;
+      border-radius:12px;padding:.85rem 1.8rem;border:1px solid rgba(86,65,255,.3);
+      cursor:pointer;text-decoration:none;transition:background .18s;font-family:'Satoshi',sans-serif;font-size:inherit;
+    }
+    .btn-indigo:hover{background:rgba(86,65,255,.22);}
 
-  /* ── STATS ── */
-  .stats {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 1px; max-width: 800px; margin: 70px auto 0;
-    border: 1px solid var(--glass-border); border-radius: 20px;
-    overflow: hidden; backdrop-filter: blur(16px);
-    background: var(--glass-border);
-  }
-  .stat {
-    background: var(--glass);
-    padding: 28px 20px; text-align: center;
-  }
-  .stat-val { font-size: 2rem; font-weight: 900; }
-  .stat-val.pink { color: var(--pink); }
-  .stat-val.violet { color: var(--sky); }
-  .stat-val.sky { color: #b8c4ff; }
-  .stat-val.white { color: var(--white); }
-  .stat-lbl { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 4px; font-weight: 500; }
+    /* pulse */
+    @keyframes ring{
+      0%{box-shadow:0 0 0 0 rgba(255,108,210,.55),0 4px 28px rgba(255,108,210,.3)}
+      70%{box-shadow:0 0 0 12px rgba(255,108,210,0),0 4px 28px rgba(255,108,210,.3)}
+      100%{box-shadow:0 0 0 0 rgba(255,108,210,0),0 4px 28px rgba(255,108,210,.3)}
+    }
+    .pulse{animation:ring 2.4s ease-in-out infinite;}
 
-  /* ── SECTION TITLES ── */
-  .section-header { text-align: center; margin-bottom: 56px; }
-  .section-header h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: -1px; }
-  .section-header p { color: rgba(255,255,255,0.55); margin-top: 12px; font-size: 1rem; max-width: 520px; margin-inline: auto; }
-  .label { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 14px; display: block; }
+    /* ── CARDS ── */
+    .card{
+      background:rgba(19,11,38,.7);
+      border:1px solid rgba(86,65,255,.15);
+      border-radius:var(--r);
+      backdrop-filter:blur(8px);
+    }
+    .card-pink{
+      background:linear-gradient(145deg,rgba(255,108,210,.09),rgba(86,65,255,.05));
+      border-color:rgba(255,108,210,.26)!important;
+      box-shadow:0 0 60px rgba(255,108,210,.07);
+    }
+    .card-indigo{
+      background:linear-gradient(145deg,rgba(86,65,255,.09),rgba(172,208,255,.03));
+      border-color:rgba(86,65,255,.24)!important;
+      box-shadow:0 0 60px rgba(86,65,255,.06);
+    }
 
-  section.pad { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
-  section.pad-full { padding: 100px 24px; }
+    /* ── CHECKS ── */
+    .chk{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:900;}
+    .cp{background:rgba(255,108,210,.15);color:var(--pink);}
+    .ci{background:rgba(86,65,255,.16);color:#ACD0FF;}
+    .cg{background:rgba(52,211,153,.12);color:var(--green);}
 
-  /* ── COMPARISON ── */
-  .comparison-wrap {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-    max-width: 860px; margin: 0 auto;
-  }
-  .comp-card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px; padding: 32px;
-    backdrop-filter: blur(16px);
-  }
-  .comp-card.hero-card {
-    border-color: var(--violet);
-    box-shadow: 0 0 40px rgba(86,65,255,0.25);
-    background: rgba(86,65,255,0.12);
-  }
-  .comp-card h3 { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
-  .comp-card.hero-card h3 { color: var(--pink); }
-  .comp-card .price { font-size: 2.8rem; font-weight: 900; }
-  .comp-card .price sub { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.6); }
-  .comp-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.88rem; color: rgba(255,255,255,0.7); }
-  .comp-item:last-child { border: none; }
-  .tag-old { color: rgba(255,255,255,0.35); text-decoration: line-through; }
-  .tag-new { color: var(--pink); font-weight: 700; }
+    /* ── STEP ── */
+    .sn{
+      width:44px;height:44px;border-radius:50%;
+      background:linear-gradient(135deg,rgba(255,108,210,.18),rgba(86,65,255,.18));
+      border:1px solid rgba(255,108,210,.3);
+      color:var(--pink);font-family:'Satoshi',sans-serif;font-weight:900;font-size:1.05rem;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
 
-  /* big comparison table */
-  .table-wrap { overflow-x: auto; margin-top: 48px; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  th { padding: 14px 20px; text-align: left; color: rgba(255,255,255,0.5); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5px; border-bottom: 1px solid var(--glass-border); }
-  td { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  td:first-child { color: rgba(255,255,255,0.7); }
-  td.highlight { color: var(--pink); font-weight: 700; }
-  tr:last-child td { border: none; }
+    /* ── STAT BAR ── */
+    .stat{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+    .stat-n{
+      font-family:'Satoshi',sans-serif;font-weight:900;font-size:1.7rem;line-height:1;
+      background:linear-gradient(135deg,#FF6CD2,#ACD0FF);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .stat-l{font-size:.7rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+    .sdiv{width:1px;height:28px;background:rgba(86,65,255,.2);flex-shrink:0;}
 
-  /* ── STEPS ── */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .step {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: 20px; padding: 36px 28px; text-align: center;
-    backdrop-filter: blur(12px);
-    transition: transform 0.25s, box-shadow 0.25s;
-  }
-  .step:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(86,65,255,0.25); }
-  .step-num {
-    width: 48px; height: 48px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--violet), var(--pink));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; font-weight: 900; margin: 0 auto 20px;
-    box-shadow: 0 4px 20px rgba(86,65,255,0.5);
-  }
-  .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
-  .step p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    /* ── COMPARISON ── */
+    .cw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .ct{min-width:320px;width:100%;}
+    .cr{display:grid;grid-template-columns:1.6fr 1fr 1fr;}
+    .cr>*{padding:.75rem .8rem;font-size:.79rem;}
+    .cr>*:not(:first-child){border-left:1px solid rgba(86,65,255,.12);text-align:center;}
+    .cr+.cr{border-top:1px solid rgba(86,65,255,.1);}
+    .cr:nth-child(even){background:rgba(86,65,255,.025);}
 
-  /* ── REVIEWS ── */
-  .reviews { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
-  .review-card {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: 20px; padding: 28px;
-    backdrop-filter: blur(12px);
-    transition: transform 0.25s;
-  }
-  .review-card:hover { transform: translateY(-3px); }
-  .stars { color: var(--pink); font-size: 1rem; margin-bottom: 14px; }
-  .review-card p { font-size: 0.88rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 18px; }
-  .reviewer { display: flex; align-items: center; gap: 12px; }
-  .avatar {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--violet), var(--pink));
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.9rem;
-  }
-  .rev-info small { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+    /* ── MARQUEE ── */
+    @keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .mq{animation:mq 40s linear infinite;width:max-content;}
+    @media(pointer:fine){.mq:hover{animation-play-state:paused;}}
 
-  /* ── FEATURES ── */
-  .features { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
-  .feat {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: 16px; padding: 26px 22px;
-    backdrop-filter: blur(10px); transition: border-color 0.2s;
-  }
-  .feat:hover { border-color: rgba(255,108,210,0.4); }
-  .feat-icon { font-size: 1.6rem; margin-bottom: 12px; }
-  .feat h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; }
-  .feat p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    /* ── FAQ ── */
+    .fb{max-height:0;overflow:hidden;transition:max-height .32s ease,padding .32s ease;}
+    .fb.open{max-height:280px;padding-bottom:1rem;}
+    .fc{transition:transform .26s ease;}
+    .fq[aria-expanded="true"] .fc{transform:rotate(180deg);}
 
-  /* ── DEVICES ── */
-  .devices {
-    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
-    max-width: 700px; margin: 0 auto;
-  }
-  .device {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: 14px; padding: 18px 12px; text-align: center;
-    backdrop-filter: blur(8px); font-size: 0.82rem; color: rgba(255,255,255,0.75);
-    font-weight: 500;
-  }
-  .device .d-icon { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+    /* ── TESTI ── */
+    .tst{
+      background:rgba(19,11,38,.7);border:1px solid rgba(86,65,255,.15);
+      border-radius:var(--r);padding:1.4rem;
+      transition:border-color .2s,box-shadow .2s;
+      backdrop-filter:blur(8px);
+    }
+    .tst:hover{border-color:rgba(255,108,210,.28);box-shadow:0 0 40px rgba(255,108,210,.06);}
+    .tav{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Satoshi',sans-serif;font-weight:900;font-size:.95rem;flex-shrink:0;}
 
-  /* ── PRICING ── */
-  .pricing { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
-  .plan {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: 24px; padding: 40px 36px; width: 320px;
-    backdrop-filter: blur(16px); position: relative;
-    transition: transform 0.25s, box-shadow 0.25s;
-  }
-  .plan:hover { transform: translateY(-4px); }
-  .plan.featured {
-    border-color: var(--violet);
-    box-shadow: 0 0 60px rgba(86,65,255,0.3);
-    background: rgba(86,65,255,0.12);
-  }
-  .plan-badge {
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--violet), var(--pink));
-    padding: 5px 18px; border-radius: 100px; font-size: 0.72rem; font-weight: 700;
-    white-space: nowrap;
-  }
-  .plan h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-  .plan .plan-price { font-size: 3.2rem; font-weight: 900; line-height: 1; margin: 16px 0 4px; }
-  .plan .plan-price span { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.5); }
-  .plan .plan-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 28px; }
-  .plan ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-  .plan ul li { font-size: 0.88rem; color: rgba(255,255,255,0.75); display: flex; gap: 10px; }
-  .plan ul li::before { content: '✓'; color: var(--pink); font-weight: 700; flex-shrink: 0; }
-  .btn-plan {
-    width: 100%; padding: 15px; border-radius: 100px; font-size: 0.95rem;
-    font-weight: 700; cursor: pointer; border: none; transition: all 0.2s;
-  }
-  .btn-plan.outline {
-    background: transparent; border: 1.5px solid var(--glass-border);
-    color: #fff;
-  }
-  .btn-plan.outline:hover { border-color: var(--pink); color: var(--pink); }
-  .btn-plan.solid {
-    background: linear-gradient(135deg, var(--violet), var(--pink));
-    color: #fff; box-shadow: 0 8px 28px rgba(86,65,255,0.4);
-  }
-  .btn-plan.solid:hover { box-shadow: 0 12px 40px rgba(86,65,255,0.6); transform: translateY(-2px); }
+    /* ── DEV PILL ── */
+    .dp{
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:rgba(86,65,255,.08);
+      border:1px solid rgba(86,65,255,.18);
+      border-radius:9px;padding:.46rem .88rem;font-size:.79rem;font-weight:500;
+    }
 
-  /* ── FAQ ── */
-  .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-  details {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: 16px; backdrop-filter: blur(10px); overflow: hidden;
-    transition: border-color 0.2s;
-  }
-  details[open] { border-color: rgba(86,65,255,0.5); }
-  summary {
-    padding: 20px 24px; font-size: 0.95rem; font-weight: 600;
-    cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
-  }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: '+'; font-size: 1.2rem; color: var(--pink); transition: transform 0.2s; }
-  details[open] summary::after { transform: rotate(45deg); }
-  .faq-body { padding: 0 24px 20px; font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+    /* ── FEAT ICON ── */
+    .fi{
+      width:44px;height:44px;
+      background:linear-gradient(135deg,rgba(255,108,210,.14),rgba(86,65,255,.12));
+      border:1px solid rgba(255,108,210,.16);
+      border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
 
-  /* ── CTA BANNER ── */
-  .cta-banner {
-    text-align: center; padding: 100px 24px;
-    background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(86,65,255,0.3) 0%, transparent 70%);
-  }
-  .cta-banner h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -1.5px; max-width: 700px; margin: 0 auto 16px; }
-  .cta-banner p { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 36px; max-width: 480px; margin-inline: auto; margin-bottom: 36px; }
-  .cta-trust { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-top: 24px; }
-  .cta-trust span::before { content: '✓ '; color: var(--pink); }
+    /* ── TRENDING ── */
+    .tc{flex:0 0 auto;width:132px;position:relative;cursor:pointer;}
+    .tc img{width:100%;border-radius:12px;display:block;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+    .tn{
+      position:absolute;left:-19px;bottom:-5px;
+      font-family:'Satoshi',sans-serif;font-size:4.8rem;font-weight:900;line-height:1;
+      color:rgba(255,255,255,.05);
+      -webkit-text-stroke:2px rgba(255,108,210,.14);
+      pointer-events:none;z-index:10;user-select:none;
+    }
+    @media(pointer:fine){.tc img{transition:transform .22s ease;}.tc:hover img{transform:scale(1.06);}}
 
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--glass-border);
-    padding: 40px 48px;
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
-    font-size: 0.82rem; color: rgba(255,255,255,0.35);
-    background: rgba(13,10,26,0.6); backdrop-filter: blur(12px);
-  }
-  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
-  .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--pink); }
+    /* ── TRUST ── */
+    .ti{display:flex;align-items:center;gap:.35rem;font-size:.76rem;color:var(--muted);}
+    .ti strong{color:var(--txt2);}
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 999;
-    background: rgba(13,10,26,0.85); backdrop-filter: blur(14px);
-    display: none; align-items: center; justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: #1a0d2e; border: 1px solid var(--glass-border);
-    border-radius: 28px; padding: 44px; max-width: 460px; width: 90%;
-    position: relative;
-  }
-  .modal h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
-  .modal-close {
-    position: absolute; top: 20px; right: 20px;
-    background: none; border: none; color: rgba(255,255,255,0.5);
-    font-size: 1.4rem; cursor: pointer; transition: color 0.2s;
-  }
-  .modal-close:hover { color: var(--pink); }
+    /* ── STARS ── */
+    .stars{color:#FF6CD2;}
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 16px 20px; }
-    .stats { grid-template-columns: repeat(2,1fr); }
-    .comparison-wrap { grid-template-columns: 1fr; }
-    .steps { grid-template-columns: 1fr; }
-    .reviews { grid-template-columns: 1fr; }
-    .features { grid-template-columns: repeat(2,1fr); }
-    .devices { grid-template-columns: repeat(4,1fr); }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
-  }
-  @media (max-width: 600px) {
-    .nav-links { display: none; }
-    .hero { padding: 80px 20px 60px; }
-    .stats { grid-template-columns: repeat(2,1fr); }
-    .features { grid-template-columns: 1fr 1fr; }
-    .devices { grid-template-columns: repeat(2,1fr); }
-    section.pad { padding: 70px 20px; }
-  }
+    /* ── MODAL ── */
+    body.modal-open{overflow:hidden;}
+    .mbox{
+      background:linear-gradient(150deg,#130B26,#0B0617);
+      border:1px solid rgba(255,108,210,.2);
+      border-radius:22px;
+      box-shadow:0 24px 80px rgba(86,65,255,.3),0 0 0 1px rgba(86,65,255,.1);
+    }
+    @keyframes mpop{from{opacity:0;transform:scale(.93) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .ma{animation:mpop .22s cubic-bezier(.25,.46,.45,.94) both;}
+    .tmbox{
+      background:linear-gradient(160deg,#130B26,#0B0617);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:20px;
+      box-shadow:0 18px 60px rgba(86,65,255,.25);
+    }
+    @keyframes sup{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .sa{animation:sup .24s cubic-bezier(.25,.46,.45,.94);}
+    .modal-divider{border:none;border-top:1px solid rgba(86,65,255,.15);margin:1.2rem 0;}
 
-  /* ── ANIMATIONS ── */
-  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(255,108,210,0.4); }
-    70% { box-shadow: 0 0 0 14px rgba(255,108,210,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,108,210,0); }
-  }
-  .pulse { animation: pulse-ring 2.4s ease-out infinite; }
-  .ipl-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,108,210,0.12); border: 1px solid rgba(255,108,210,0.3);
-    padding: 8px 18px; border-radius: 100px; font-size: 0.85rem; font-weight: 700;
-    color: var(--pink); margin: 32px auto 0; animation: float 4s ease-in-out infinite;
-  }
-  .live-dot {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--pink);
-    animation: pulse-ring 1.8s ease-out infinite; flex-shrink: 0;
-  }
+    /* NS */
+    .ns::-webkit-scrollbar{display:none;}
+    .ns{scrollbar-width:none;-ms-overflow-style:none;}
 
-  /* channel logo pills */
-  .channels-row {
-    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-    max-width: 700px; margin: 40px auto 0;
-  }
-  .ch-pill {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    padding: 6px 16px; border-radius: 100px; font-size: 0.78rem; font-weight: 600;
-    color: rgba(255,255,255,0.6); backdrop-filter: blur(6px);
-  }
+    /* PP badge */
+    .ppb{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px;opacity:.36;}
+    .ppb img.c{height:11px;}
+    .ppb span{font-size:.44rem;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:2px;}
+    .ppb span img{height:.52rem;opacity:.6;}
 
-  /* support note */
-  .support-note {
-    background: rgba(86,65,255,0.15); border: 1px solid rgba(86,65,255,0.3);
-    border-radius: 16px; padding: 20px 28px;
-    display: flex; align-items: center; gap: 16px;
-    max-width: 600px; margin: 40px auto 0; font-size: 0.88rem;
-    color: rgba(255,255,255,0.75);
-  }
-  .support-note .icon { font-size: 1.4rem; flex-shrink: 0; }
+    /* OTT pills */
+    .ott-pill{
+      display:inline-flex;align-items:center;gap:.35rem;
+      padding:.38rem .85rem;
+      background:rgba(86,65,255,.07);
+      border:1px solid rgba(86,65,255,.18);
+      border-radius:99px;font-size:.74rem;font-weight:600;
+      color:rgba(255,255,255,.55);white-space:nowrap;
+    }
 
-  .pill-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
-  .pill {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--glass); border: 1px solid var(--glass-border);
-    padding: 7px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 600;
-    backdrop-filter: blur(6px);
-  }
-  .pill .dot { width: 6px; height: 6px; border-radius: 50%; }
-  .dot-pink { background: var(--pink); }
-  .dot-violet { background: var(--violet); }
-  .dot-sky { background: var(--sky); }
-</style>
+    /* Hero badge */
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:.5rem;
+      padding:.45rem 1.1rem;border-radius:99px;
+      background:rgba(255,108,210,.07);
+      border:1px solid rgba(255,108,210,.22);
+      font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+      color:var(--pink);
+    }
+
+    /* Gradient text */
+    .grad-text{
+      background:linear-gradient(110deg,#FF6CD2 0%,#ACD0FF 50%,#5641FF 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+
+    /* IPL banner glow */
+    .ipl-wrap{
+      box-shadow:0 8px 50px rgba(255,108,210,.2),0 0 0 1px rgba(255,108,210,.18);
+    }
+
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}.mq{animation:none;}}
+  </style>
 </head>
 <body>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="logo">Zenora<span>Play</span></div>
-  <div class="nav-links">
-    <a href="https://chat.whatsapp.com/Inu48fC37EA6NmvohlAMUX">WhatsApp Updates</a>
-    <a href="#pricing">Pricing</a>
-  </div>
-  <button class="btn-nav" onclick="document.getElementById('trialModal').classList.add('open')">Get Started</button>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">
-    <div class="live-dot"></div>
-    📡 Your Complete Streaming Hub
-  </div>
-  <h1>10,000+ LIVE Channels<br><span class="grad">& Unlimited Movies</span></h1>
-  <p>IPTV + on-demand streaming in one place. FHD quality, anti-freeze tech, every device supported.</p>
-  <div class="hero-ctas">
-    <button class="btn-primary pulse" onclick="document.getElementById('trialModal').classList.add('open')">🚀 Get Started</button>
-    <a href="https://chat.whatsapp.com/Inu48fC37EA6NmvohlAMUX" class="btn-secondary">💬 WhatsApp Updates</a>
-  </div>
-  <div class="replaces">
-    <span style="color:rgba(255,255,255,0.4);font-size:0.8rem;">Replaces all of these →</span>
-    <span>🎬 Netflix</span>
-    <span>📺 Hotstar</span>
-    <span>🎵 Prime Video</span>
-    <span>🎞 SonyLIV</span>
-    <span>📡 Cable / DTH</span>
-    <span>+ much more</span>
-  </div>
-  <div class="ipl-badge">
-    <div class="live-dot"></div>
-    🏏 IPL 2026 — LIVE STREAMING
-  </div>
-  <div class="pill-row" style="margin-top:32px;">
-    <div class="pill"><div class="dot dot-violet"></div>🔒 Secure Payment</div>
-    <div class="pill"><div class="dot dot-pink"></div>⚡ Instant Access</div>
-    <div class="pill"><div class="dot dot-sky"></div>★★★★★ 4.8 / 5</div>
-    <div class="pill"><div class="dot dot-violet"></div>👥 2,400+ Subscribers</div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats" style="position:relative;z-index:1;max-width:800px;margin:0 auto 100px;">
-  <div class="stat"><div class="stat-val pink">10,000+</div><div class="stat-lbl">Live Channels</div></div>
-  <div class="stat"><div class="stat-val violet">Unlimited</div><div class="stat-lbl">Movies & Shows</div></div>
-  <div class="stat"><div class="stat-val sky">FHD</div><div class="stat-lbl">Picture Quality</div></div>
-  <div class="stat"><div class="stat-val white">99.9%</div><div class="stat-lbl">Uptime</div></div>
-</div>
-
-<!-- ONE PLAN -->
-<section class="pad">
-  <div class="section-header">
-    <span class="label">Value Comparison</span>
-    <h2>One Plan. Replaces Everything.</h2>
-    <p>You pay separately for Cable TV, Netflix, Hotstar, Prime Video, SonyLIV — <strong>Zenora Play</strong> gives you all of it in a single plan, for less.</p>
-  </div>
-  <div class="comparison-wrap">
-    <div class="comp-card">
-      <h3>What you pay today</h3>
-      <div class="comp-item"><span>📺 Cable / DTH</span><span class="tag-old">₹500–₹800</span></div>
-      <div class="comp-item"><span>🎬 Netflix</span><span class="tag-old">₹149–₹649</span></div>
-      <div class="comp-item"><span>📺 Hotstar</span><span class="tag-old">₹299/mo</span></div>
-      <div class="comp-item"><span>🎵 Prime Video</span><span class="tag-old">₹149/mo</span></div>
-      <div class="comp-item" style="border:none;padding-top:18px;"><span style="font-weight:700;">Total</span><span style="font-weight:900;font-size:1.2rem;color:rgba(255,255,255,0.5);">₹1,200+/mo</span></div>
+<!-- ═══════ HEADER ═══════ -->
+<header>
+  <nav class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3">
+    <a href="#top" class="logo">Zenora Play</a>
+    <div class="flex items-center gap-2">
+      <a href="https://chat.whatsapp.com/Inu48fC37EA6NmvohlAMUX" target="_blank"
+         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold"
+         style="background:rgba(52,211,153,.07);color:#34D399;border:1px solid rgba(52,211,153,.18);">
+        <span class="w-1.5 h-1.5 rounded-full animate-pulse inline-block" style="background:#34D399;flex-shrink:0;"></span>
+        <span class="hidden sm:inline">Join WhatsApp</span>
+        <span class="sm:hidden">Updates</span>
+      </a>
+      <a href="#pricing" class="btn-ghost text-sm px-4 py-2 hidden md:inline-flex" style="border-radius:8px;">Pricing</a>
+      <button onclick="openPlanModal()" class="btn-primary pulse text-sm px-5 py-2.5" style="border-radius:10px;">Get Started</button>
     </div>
-    <div class="comp-card hero-card">
-      <h3>Zenora Play</h3>
-      <div class="plan-price" style="font-size:3rem;font-weight:900;margin:10px 0;">₹199<span style="font-size:1rem;font-weight:500;color:rgba(255,255,255,0.5)">/month</span></div>
-      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:20px;">all-in-one · cancel anytime</div>
-      <div class="comp-item"><span>✓ All live channels</span><span class="tag-new">Included</span></div>
-      <div class="comp-item"><span>✓ All movies & shows</span><span class="tag-new">Included</span></div>
-      <div class="comp-item"><span>✓ Sports & PPV</span><span class="tag-new">Included</span></div>
-      <div class="comp-item" style="border:none;"><span>✓ Every device</span><span class="tag-new">Included</span></div>
-      <div style="margin-top:18px;padding:12px;background:rgba(255,108,210,0.1);border-radius:12px;font-size:0.82rem;color:var(--pink);text-align:center;font-weight:600;">
-        💰 Save ₹1,000+ per month — and get <em>more</em> content
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="max-w-5xl mx-auto px-4 pt-12 md:pt-20 pb-10 text-center">
+
+    <div class="hero-badge mb-6">
+      <span>📡 Your Complete Streaming Hub</span>
+    </div>
+
+    <h1 style="font-family:'Satoshi',sans-serif;font-weight:900;line-height:1.05;letter-spacing:-.025em;margin:0;">
+      <span class="block" style="font-size:clamp(1.9rem,6.5vw,3.8rem);color:var(--txt);">10,000+ LIVE TV Channels</span>
+      <span class="block mt-1 grad-text" style="font-size:clamp(1.9rem,6.5vw,3.8rem);">&amp; Unlimited Movies &amp; TV Shows<sup style="font-size:.42em;-webkit-text-fill-color:rgba(255,255,255,.3);background:none;-webkit-background-clip:unset;background-clip:unset;">*</sup></span>
+    </h1>
+
+    <p class="mt-4 max-w-xl mx-auto" style="font-size:.97rem;color:var(--txt2);line-height:1.7;">
+      IPTV + on-demand streaming in one place. FHD quality, anti-freeze tech, every device supported.
+    </p>
+
+    <!-- OTT logos -->
+    <p class="mt-3 text-xs font-semibold uppercase tracking-widest" style="color:var(--muted);">Replaces all of these</p>
+    <div class="mt-2 flex flex-wrap justify-center gap-2">
+      <span class="ott-pill">🎬 Netflix</span>
+      <span class="ott-pill">📺 Hotstar</span>
+      <span class="ott-pill">🎵 Prime Video</span>
+      <span class="ott-pill">🎞 SonyLIV</span>
+      <span class="ott-pill">📡 Cable / DTH</span>
+      <span class="ott-pill">+ much more</span>
+    </div>
+
+    <!-- IPL 2026 Banner -->
+    <div class="mt-6 relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden ipl-wrap">
+      <div class="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-xl"
+           style="background:linear-gradient(135deg,#FF6CD2,#5641FF);font-family:'Satoshi',sans-serif;font-weight:900;font-size:.82rem;color:#fff;letter-spacing:.02em;box-shadow:0 2px 16px rgba(255,108,210,.5);">
+        🏏 IPL 2026
+      </div>
+      <img src="https://i.ibb.co/3YQpqQ4w/IPL.png" alt="IPL 2026 Streaming on Zenora Play" style="width:100%;display:block;border-radius:16px;" loading="eager"/>
+      <div class="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
+           style="background:rgba(0,0,0,.72);border:1px solid rgba(255,108,210,.3);backdrop-filter:blur(8px);">
+        <span class="w-2 h-2 rounded-full inline-block" style="background:#F87171;box-shadow:0 0 6px #F87171;animation:ring 1.4s ease-in-out infinite;flex-shrink:0;"></span>
+        <span style="font-size:.72rem;font-weight:700;color:#fff;">LIVE STREAMING</span>
+      </div>
+    </div>
+
+    <!-- Hero CTAs -->
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 w-full px-2 sm:px-0">
+      <button onclick="openPlanModal()" class="btn-primary pulse w-full sm:w-auto sm:px-10 py-4 rounded-2xl" style="font-size:1rem;font-weight:800;">
+        🚀 Get Started
+      </button>
+      <button onclick="openAppStore()" class="btn-ghost w-full sm:w-auto sm:px-8 py-4 rounded-2xl" style="font-size:.95rem;font-weight:700;">
+        📲 Download App &amp; Stream
+      </button>
+    </div>
+
+    <div class="mt-4 sm:hidden">
+      <a href="https://chat.whatsapp.com/Inu48fC37EA6NmvohlAMUX" target="_blank"
+         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm"
+         style="background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.2);color:#34D399;text-decoration:none;">
+        💬 Join WhatsApp for Updates
+      </a>
+    </div>
+
+    <p style="font-size:.73rem;color:var(--muted);margin-top:.75rem;">Instant delivery · No contract · Works on all devices</p>
+
+    <!-- Social proof -->
+    <div class="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2">
+      <div class="ti">🔒 <strong>Secure Payment</strong></div>
+      <div class="ti">⚡ <strong>Instant Access</strong></div>
+      <div class="ti"><span class="stars">★★★★★</span> <strong>4.8 / 5</strong></div>
+      <div class="ti">👥 <strong>2,400+ Subscribers</strong></div>
+    </div>
+  </section>
+
+  <!-- ═══════ STATS BAR ═══════ -->
+  <div class="border-y py-7" style="border-color:rgba(86,65,255,.15);background:rgba(86,65,255,.03);">
+    <div class="max-w-3xl mx-auto px-4 flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
+      <div class="stat"><div class="stat-n">10,000+</div><div class="stat-l">Live Channels</div></div>
+      <div class="sdiv hidden sm:block"></div>
+      <div class="stat"><div class="stat-n">Unlimited</div><div class="stat-l">Movies &amp; Shows</div></div>
+      <div class="sdiv hidden sm:block"></div>
+      <div class="stat"><div class="stat-n">FHD</div><div class="stat-l">Picture Quality</div></div>
+      <div class="sdiv hidden sm:block"></div>
+      <div class="stat"><div class="stat-n">99.9%</div><div class="stat-l">Uptime</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════ MARQUEE ═══════ -->
+  <div class="py-5 overflow-hidden border-b" style="border-color:rgba(86,65,255,.12);">
+    <p class="text-center mb-3" style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);">Includes channels from</p>
+    <div class="mq flex gap-3" id="mqTrack"></div>
+  </div>
+
+  <!-- ═══════ WHY SWITCH ═══════ -->
+  <section class="max-w-4xl mx-auto px-4 py-16">
+    <div class="text-center mb-3">
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 .5rem;">One Plan. Replaces Everything.</h2>
+      <p style="color:var(--txt2);font-size:.92rem;max-width:520px;margin:0 auto;">You pay separately for Cable TV, Netflix, Hotstar, Prime Video, SonyLIV — Zenora Play gives you <strong style="color:var(--pink);">all of it in a single plan</strong>, for less.</p>
+    </div>
+
+    <div class="mt-8 card p-5 md:p-6 mb-6">
+      <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 1rem;">What you pay today vs. Zenora Play</p>
+      <div class="grid sm:grid-cols-2 gap-3 mb-4">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between p-3 rounded-lg" style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.14);">
+            <span style="font-size:.83rem;">📺 Cable / DTH</span>
+            <span style="color:var(--red);font-weight:700;" class="price-dth">₹500–₹800</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-lg" style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.14);">
+            <span style="font-size:.83rem;">🎬 Netflix</span>
+            <span style="color:var(--red);font-weight:700;" class="price-netflix">₹149–₹649</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-lg" style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.14);">
+            <span style="font-size:.83rem;">📺 Hotstar</span>
+            <span style="color:var(--red);font-weight:700;" class="price-hotstar">₹299/mo</span>
+          </div>
+          <div class="flex items-center justify-between p-3 rounded-lg" style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.14);">
+            <span style="font-size:.83rem;">🎵 Prime Video</span>
+            <span style="color:var(--red);font-weight:700;" class="price-prime">₹149/mo</span>
+          </div>
+        </div>
+        <div class="flex flex-col justify-center items-center p-5 rounded-xl"
+             style="background:linear-gradient(135deg,rgba(255,108,210,.08),rgba(86,65,255,.08));border:1px solid rgba(255,108,210,.22);">
+          <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--pink);margin:0 0 .5rem;">Zenora Play</p>
+          <div class="grad-text" style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:3rem;line-height:1;" id="cmp-monthly-price">₹199</div>
+          <div style="font-size:.78rem;color:var(--muted);margin:.3rem 0 .8rem;">/month · all-in-one</div>
+          <div style="font-size:.82rem;color:var(--txt2);text-align:center;line-height:1.7;">
+            ✓ All live channels<br/>✓ All movies &amp; shows<br/>✓ Sports &amp; PPV<br/>✓ Every device
+          </div>
+        </div>
+      </div>
+      <div class="p-3.5 rounded-xl text-center"
+           style="background:linear-gradient(135deg,rgba(255,108,210,.08),rgba(86,65,255,.08));border:1px solid rgba(255,108,210,.2);color:var(--pink);font-weight:700;font-size:.85rem;">
+        💰 You could save <span id="savings-txt">₹1,000+</span> per month — and get <em>more</em> content
+      </div>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="card cw overflow-hidden">
+      <div class="ct">
+        <div class="cr" style="background:rgba(86,65,255,.04);">
+          <div style="color:var(--muted);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;"></div>
+          <div style="color:var(--muted);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;">DTH + OTTs</div>
+          <div class="grad-text" style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;text-align:center;">Zenora Play</div>
+        </div>
+        <div class="cr"><div style="color:var(--txt2);">Monthly Cost</div><div style="color:var(--red);font-weight:600;" id="cmp-dth-cost">₹1,200+</div><div class="grad-text" style="font-weight:700;" id="cmp-elite-cost">₹199</div></div>
+        <div class="cr"><div style="color:var(--txt2);">Live TV Channels</div><div style="color:var(--muted);">~500</div><div style="color:var(--pink);font-weight:700;">10,000+</div></div>
+        <div class="cr"><div style="color:var(--txt2);">Movies &amp; Series</div><div style="color:var(--muted);">Split across apps</div><div style="color:var(--green);font-weight:600;">✓ All in one place</div></div>
+        <div class="cr"><div style="color:var(--txt2);">Works on Phone</div><div style="color:var(--red);">DTH: ✕</div><div style="color:var(--green);font-weight:600;">✓ Yes</div></div>
+        <div class="cr"><div style="color:var(--txt2);">FHD Quality</div><div style="color:var(--muted);">Sometimes</div><div style="color:var(--green);font-weight:600;">✓ Always</div></div>
+        <div class="cr"><div style="color:var(--txt2);">Number of apps/bills</div><div style="color:var(--red);">4–6 separate bills</div><div style="color:var(--green);font-weight:600;">✓ Just one</div></div>
+        <div class="cr"><div style="color:var(--txt2);">Lock-in Contract</div><div style="color:var(--red);">Annual / 6-month</div><div style="color:var(--green);font-weight:600;">✓ None</div></div>
+        <div class="cr"><div style="color:var(--txt2);">Installation needed</div><div style="color:var(--red);">DTH: Yes + wait</div><div style="color:var(--green);font-weight:600;">✓ None · Instant</div></div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <button onclick="openPlanModal()" class="btn-primary px-8 py-3.5 rounded-xl" style="font-weight:800;">Switch to Zenora Play →</button>
+    </div>
+  </section>
+
+  <!-- ═══════ HOW IT WORKS ═══════ -->
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    <div class="text-center mb-9">
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.5rem,4vw,2rem);margin:0 0 .5rem;">Up &amp; Running in 5 Minutes</h2>
+      <p style="color:var(--muted);font-size:.88rem;">No dish. No technician. No waiting.</p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="card p-5 text-center" style="border-color:rgba(255,108,210,.15);">
+        <div class="sn mx-auto mb-3">1</div>
+        <h3 style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1rem;margin:0 0 .4rem;">Choose a Plan</h3>
+        <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">Trial for <span class="dyn-trial">₹19</span> or Monthly for <span class="dyn-month">₹199</span>. Secure Razorpay checkout.</p>
+      </div>
+      <div class="card p-5 text-center" style="border-color:rgba(86,65,255,.2);">
+        <div class="sn mx-auto mb-3">2</div>
+        <h3 style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1rem;margin:0 0 .4rem;">Get Credentials</h3>
+        <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">Login sent to WhatsApp &amp; email in ~5 minutes.</p>
+      </div>
+      <div class="card p-5 text-center" style="border-color:rgba(172,208,255,.15);">
+        <div class="sn mx-auto mb-3">3</div>
+        <h3 style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1rem;margin:0 0 .4rem;">Start Streaming</h3>
+        <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">Open the app, log in — 10,000+ channels live instantly.</p>
+      </div>
+    </div>
+    <div class="mt-5 card p-4 flex items-start gap-3" style="border-color:rgba(52,211,153,.15);background:rgba(52,211,153,.04);">
+      <span style="font-size:1.3rem;flex-shrink:0;margin-top:.1rem;">💬</span>
+      <p style="font-size:.83rem;color:#6ee7b7;margin:0;line-height:1.6;"><strong style="color:#fff;">Stuck during setup?</strong> Our WhatsApp team walks you through installation live — completely free.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ TESTIMONIALS ═══════ -->
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <div class="text-center mb-9">
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.5rem,4vw,2rem);margin:0 0 .5rem;">Real Subscribers. Real Reviews.</h2>
+      <div class="flex items-center justify-center gap-2 mt-2">
+        <span class="stars">★★★★★</span>
+        <span style="font-size:.85rem;color:var(--txt2);">4.8 / 5 based on 2,400+ subscribers</span>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="tst">
+        <div class="stars mb-2.5">★★★★★</div>
+        <p style="font-size:.83rem;line-height:1.65;color:var(--txt2);margin:0 0 1.1rem;">"Switched from Tata Sky 4 months ago. Saving ₹450/month and getting way more channels. Star Sports HD never buffers during IPL."</p>
+        <div class="flex items-center gap-2.5">
+          <div class="tav" style="background:rgba(255,108,210,.14);color:var(--pink);">R</div>
+          <div><p style="font-weight:700;font-size:.82rem;margin:0;">Rahul M.</p><p style="font-size:.7rem;color:var(--muted);margin:0;">New Delhi · 4 months</p></div>
+        </div>
+      </div>
+      <div class="tst" style="border-color:rgba(255,108,210,.2);">
+        <div class="stars mb-2.5">★★★★★</div>
+        <p style="font-size:.83rem;line-height:1.65;color:var(--txt2);margin:0 0 1.1rem;">"Tried the trial to test. Bought monthly the same evening — quality blew me away. Cancelled Netflix and Hotstar next day."</p>
+        <div class="flex items-center gap-2.5">
+          <div class="tav" style="background:rgba(86,65,255,.14);color:#ACD0FF;">P</div>
+          <div><p style="font-weight:700;font-size:.82rem;margin:0;">Priya S.</p><p style="font-size:.7rem;color:var(--muted);margin:0;">Mumbai · 2 months</p></div>
+        </div>
+      </div>
+      <div class="tst">
+        <div class="stars mb-2.5">★★★★★</div>
+        <p style="font-size:.83rem;line-height:1.65;color:var(--txt2);margin:0 0 1.1rem;">"Cancelled cable. Setup took 5 minutes. Works on Android TV box and phone. Replaced 3 OTT subscriptions at once."</p>
+        <div class="flex items-center gap-2.5">
+          <div class="tav" style="background:rgba(172,208,255,.12);color:var(--sky);">A</div>
+          <div><p style="font-weight:700;font-size:.82rem;margin:0;">Arjun K.</p><p style="font-size:.7rem;color:var(--muted);margin:0;">Bengaluru · 6 weeks</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <section id="features" class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.4rem,3.5vw,2rem);margin:0 0 .5rem;">Everything Included. No Add-ons.</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF6CD2" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5zm7 14v-2m2 2v-2"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">10,000+ Channels</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">Live TV, sports, news</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ACD0FF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.131a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">FHD Quality</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">SD / HD / FHD streams</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5641FF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">Anti-Freezing</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">Auto-reconnect tech</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF6CD2" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17zm-1.5-6.5l5-3-5-3v6z"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">Unlimited VOD*</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">Movies &amp; series</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ACD0FF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">All Devices</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">Android, iOS, TV, PC</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5641FF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">99.9% Uptime</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">Monitored servers</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FF6CD2" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">Premium Channels</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">Sports, PPV &amp; more</p>
+      </div>
+      <div class="card p-4 flex flex-col gap-2.5" style="transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,108,210,.3)'" onmouseout="this.style.borderColor='rgba(86,65,255,.15)'">
+        <div class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ACD0FF" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+        <p style="font-weight:700;font-size:.87rem;margin:0;font-family:'Satoshi',sans-serif;">Live Support</p>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;">WhatsApp + Telegram</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ DEVICES ═══════ -->
+  <section class="max-w-4xl mx-auto px-4 py-10 text-center">
+    <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.3rem,3vw,1.8rem);margin:0 0 .4rem;">Works on Every Screen You Own</h2>
+    <p class="mb-6" style="color:var(--muted);font-size:.87rem;">OTT Navigator · TiviMate · XCIPTV · IPTV Smarters · and more</p>
+    <div class="flex flex-wrap justify-center gap-2">
+      <div class="dp">📱 Android Phone</div>
+      <div class="dp">🍎 iPhone / iPad</div>
+      <div class="dp">📺 Android TV</div>
+      <div class="dp">🔥 Fire TV Stick</div>
+      <div class="dp">💻 Windows / Mac</div>
+      <div class="dp">📺 Samsung / LG TV</div>
+      <div class="dp">📦 Android Box</div>
+      <div class="dp">🎮 Any IPTV Player</div>
+    </div>
+  </section>
+
+  <!-- ═══════ TRENDING ═══════ -->
+  <section id="trending" class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-end justify-between mb-5">
+        <div>
+          <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0;">Trending Now</h2>
+          <p style="font-size:.8rem;margin:.3rem 0 0;color:var(--muted);">All available on Zenora Play</p>
+        </div>
+        <div class="hidden md:flex gap-2">
+          <button id="tL" class="w-9 h-9 rounded-full border flex items-center justify-center" style="background:rgba(86,65,255,.08);border-color:rgba(86,65,255,.2);" aria-label="Left">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button id="tR" class="w-9 h-9 rounded-full border flex items-center justify-center" style="background:rgba(86,65,255,.08);border-color:rgba(86,65,255,.2);" aria-label="Right">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="tRow" class="flex gap-5 overflow-x-auto pb-3 px-3 md:px-7 ns scroll-smooth"></div>
+    </div>
+  </section>
+
+  <!-- ═══════ PRICING ═══════ -->
+  <section id="pricing" class="max-w-4xl mx-auto px-4 py-14">
+    <div class="text-center mb-10">
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 .5rem;">Choose Your Plan</h2>
+      <p style="color:var(--muted);font-size:.9rem;">Start with the trial. Upgrade whenever ready.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+
+      <!-- TRIAL -->
+      <div class="card card-pink p-6 md:p-7 relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 100% 55% at 50% -15%,rgba(255,108,210,.1),transparent);"></div>
+        <div class="absolute top-5 right-5 px-2.5 py-0.5 rounded-full"
+             style="background:linear-gradient(135deg,#FF6CD2,#5641FF);color:#fff;font-size:.63rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;">Most Popular</div>
+        <p style="font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--pink);margin:0 0 .4rem;">Start Here</p>
+        <h3 style="font-family:'Satoshi',sans-serif;font-weight:800;font-size:1.2rem;margin:0 0 .45rem;">24-Hour Trial</h3>
+        <div class="flex items-end gap-2 flex-wrap">
+          <span class="grad-text" style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:2.7rem;line-height:1;" id="p-trial-price">₹19</span>
+          <span style="font-size:.78rem;color:var(--muted);padding-bottom:.3rem;">one-time · no renewal</span>
+        </div>
+        <ul class="space-y-2 mt-5 mb-6" style="font-size:.83rem;">
+          <li class="flex items-center gap-2"><span class="chk cp">✓</span>Full 24-hour unlimited access</li>
+          <li class="flex items-center gap-2"><span class="chk cp">✓</span>10,000+ Live channels &amp; unlimited VOD*</li>
+          <li class="flex items-center gap-2"><span class="chk cp">✓</span>FHD quality with anti-freeze tech</li>
+          <li class="flex items-center gap-2"><span class="chk cp">✓</span>Works on all your devices</li>
+          <li class="flex items-center gap-2"><span class="chk cp">✓</span>WhatsApp setup support included</li>
+        </ul>
+        <div id="p-rzp-t" class="w-full flex justify-center">
+          <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_SAYHvirg1Yh3jg" async></script></form>
+        </div>
+        <div id="p-pp-t" class="hidden w-full">
+          <form action="https://www.paypal.com/ncp/payment/WPXW35TQNNXRC" method="post" target="_blank" style="display:flex;flex-direction:column;align-items:center;">
+            <button type="submit" class="btn-primary w-full py-3.5 rounded-xl">Get Trial — $1</button>
+          </form>
+        </div>
+        <p class="mt-3 text-center" style="font-size:.7rem;color:var(--muted);">No auto-renewal · Pay once · See for yourself</p>
+      </div>
+
+      <!-- MONTHLY -->
+      <div class="card card-indigo p-6 md:p-7 relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 100% 55% at 50% -15%,rgba(86,65,255,.09),transparent);"></div>
+        <p style="font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#ACD0FF;margin:0 0 .4rem;">Best Value</p>
+        <h3 style="font-family:'Satoshi',sans-serif;font-weight:800;font-size:1.2rem;margin:0 0 .45rem;">Premium Monthly</h3>
+        <div class="flex items-end gap-2 flex-wrap">
+          <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:2.7rem;line-height:1;color:#ACD0FF;" id="p-month-price">₹199</span>
+          <span style="font-size:.78rem;color:var(--muted);padding-bottom:.3rem;">/month · cancel anytime</span>
+        </div>
+        <ul class="space-y-2 mt-5 mb-6" style="font-size:.83rem;">
+          <li class="flex items-center gap-2"><span class="chk ci">✓</span>Everything in trial, no time limit</li>
+          <li class="flex items-center gap-2"><span class="chk ci">✓</span>Priority server access</li>
+          <li class="flex items-center gap-2"><span class="chk ci">✓</span>Ongoing WhatsApp support</li>
+          <li class="flex items-center gap-2"><span class="chk ci">✓</span>Replaces Cable + all OTTs</li>
+          <li class="flex items-center gap-2"><span class="chk ci">✓</span>Cancel anytime, no penalty</li>
+        </ul>
+        <div id="p-rzp-m" class="w-full">
+          <a href="https://rzp.io/rzp/I5u4G0XI" target="_blank" class="btn-indigo w-full block text-center py-3.5 rounded-xl" style="font-weight:700;">Get Monthly — ₹199</a>
+        </div>
+        <div id="p-pp-m" class="hidden w-full">
+          <form action="https://www.paypal.com/ncp/payment/6FQX2HR2U7Q7C" method="post" target="_blank" style="display:flex;flex-direction:column;align-items:center;">
+            <button type="submit" class="btn-indigo w-full py-3.5 rounded-xl" style="font-weight:700;">Get Monthly — $3.49</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <p class="text-center mt-4" style="font-size:.81rem;color:var(--muted);">💡 Try the <span class="dyn-trial">₹19</span> trial first — if you love it, upgrade to monthly in 30 seconds.</p>
+  </section>
+
+  <!-- ═══════ FAQ ═══════ -->
+  <section id="faq" class="max-w-3xl mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.5rem,4vw,2rem);margin:0 0 .5rem;">Your Questions, Answered</h2>
+    </div>
+    <div class="space-y-3">
+      <div class="card"><button class="fq w-full text-left p-5 flex items-center justify-between gap-3" aria-expanded="false" aria-controls="fq1"><span style="font-weight:600;font-size:.93rem;">Will it work on my device?</span><svg class="fc flex-shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><path d="M19 9l-7 7-7-7"/></svg></button><div id="fq1" class="fb px-5"><p style="font-size:.82rem;line-height:1.7;color:var(--txt2);">Yes. Works on Android phones, Android TV boxes, iPhone, iPad, Fire TV Stick, Samsung/LG Smart TVs, Windows and Mac. The <span class="dyn-trial">₹19</span> trial lets you test on your exact device — zero risk.</p></div></div>
+      <div class="card"><button class="fq w-full text-left p-5 flex items-center justify-between gap-3" aria-expanded="false" aria-controls="fq2"><span style="font-weight:600;font-size:.93rem;">Does this replace Netflix, Hotstar and DTH?</span><svg class="fc flex-shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><path d="M19 9l-7 7-7-7"/></svg></button><div id="fq2" class="fb px-5"><p style="font-size:.82rem;line-height:1.7;color:var(--txt2);">For most users, yes. Zenora Play includes 10,000+ live channels (including sports, news, entertainment) plus movies and TV shows. Our subscribers commonly cancel their cable and 2-3 OTT subscriptions after switching.</p></div></div>
+      <div class="card"><button class="fq w-full text-left p-5 flex items-center justify-between gap-3" aria-expanded="false" aria-controls="fq3"><span style="font-weight:600;font-size:.93rem;">How fast is access after payment?</span><svg class="fc flex-shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><path d="M19 9l-7 7-7-7"/></svg></button><div id="fq3" class="fb px-5"><p style="font-size:.82rem;line-height:1.7;color:var(--txt2);">Usually within 5 minutes. Credentials sent to WhatsApp &amp; email. If delayed, message us on WhatsApp and we'll resolve immediately.</p></div></div>
+      <div class="card"><button class="fq w-full text-left p-5 flex items-center justify-between gap-3" aria-expanded="false" aria-controls="fq4"><span style="font-weight:600;font-size:.93rem;">Does the trial auto-renew?</span><svg class="fc flex-shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><path d="M19 9l-7 7-7-7"/></svg></button><div id="fq4" class="fb px-5"><p style="font-size:.82rem;line-height:1.7;color:var(--txt2);">No. It's a one-time payment. After 24 hours your access expires and nothing is charged. Upgrade to monthly whenever you're ready.</p></div></div>
+      <div class="card"><button class="fq w-full text-left p-5 flex items-center justify-between gap-3" aria-expanded="false" aria-controls="fq5"><span style="font-weight:600;font-size:.93rem;">What if it buffers?</span><svg class="fc flex-shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><path d="M19 9l-7 7-7-7"/></svg></button><div id="fq5" class="fb px-5"><p style="font-size:.82rem;line-height:1.7;color:var(--txt2);">Anti-freeze tech handles most hiccups automatically. We recommend 10 Mbps+ for FHD; 4G/5G works for most channels. WhatsApp support troubleshoots in real-time if needed.</p></div></div>
+      <div class="card"><button class="fq w-full text-left p-5 flex items-center justify-between gap-3" aria-expanded="false" aria-controls="fq6"><span style="font-weight:600;font-size:.93rem;">Multiple devices at once?</span><svg class="fc flex-shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted);"><path d="M19 9l-7 7-7-7"/></svg></button><div id="fq6" class="fb px-5"><p style="font-size:.82rem;line-height:1.7;color:var(--txt2);">Each subscription supports one stream at a time. Switch freely between devices — just not simultaneously. Additional subscriptions needed for concurrent streams.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ═══════ FINAL CTA ═══════ -->
+  <section class="max-w-2xl mx-auto px-4 py-14 text-center">
+    <div class="card card-pink p-7 md:p-10 relative overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,108,210,.12),transparent);"></div>
+      <p style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--pink);margin:0 0 .8rem;">One Plan. Everything Included.</p>
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.1;margin:0 0 .8rem;">
+        Stream Everything.<br/>
+        <span class="grad-text">Pay less than one OTT.</span>
+      </h2>
+      <p class="mb-7" style="color:var(--muted);font-size:.87rem;">Try <span class="dyn-trial">₹19</span> for 24 hours. No auto-renewal. No contract.<br/>Or jump straight to <span class="dyn-month">₹199</span>/month and save <span id="final-savings">₹1,000+</span> vs separate subscriptions.</p>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <button onclick="openPlanModal()" class="btn-primary w-full py-4 rounded-xl pulse" style="font-size:.95rem;font-weight:800;">🚀 Get Started</button>
+        <button onclick="openAppStore()" class="btn-ghost w-full py-4 rounded-xl" style="font-size:.93rem;font-weight:700;">📲 Download App</button>
+      </div>
+      <div class="mt-5 flex flex-wrap justify-center gap-4" style="font-size:.72rem;color:var(--muted);">
+        <span>✓ Instant delivery</span><span>✓ WhatsApp support</span><span>✓ No hidden fees</span><span>✓ Cancel anytime</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="py-7 border-t text-center" style="border-color:rgba(86,65,255,.15);">
+  <div class="flex flex-wrap justify-center gap-5 mb-3" style="font-size:.82rem;color:var(--muted);">
+    <button onclick="openInfoModal('pMod')" class="hover:text-white underline">Privacy Policy</button>
+    <button onclick="openInfoModal('tMod')" class="hover:text-white underline">Terms &amp; Conditions</button>
+    <button onclick="openInfoModal('cMod')" class="hover:text-white underline">Contact Us</button>
+    <a href="https://elitestocks.tawk.help/" target="_blank" class="hover:text-white underline">Help Center</a>
+  </div>
+  <p style="font-size:.7rem;color:var(--muted);">© 2026 Zenora Play · All rights reserved</p>
+</footer>
+
+<!-- ═══════ MODALS ═══════ -->
+<div id="infoBack" class="fixed inset-0 z-[100] hidden" style="background:rgba(0,0,0,.82);" onclick="closeInfoModal()"></div>
+<div id="planBack" class="fixed inset-0 z-[110] hidden" style="background:rgba(0,0,0,.88);" onclick="closePlanModal()"></div>
+
+<!-- PLAN MODAL -->
+<div id="planModal" class="fixed inset-0 z-[111] hidden overflow-y-auto">
+  <div style="min-height:100%;display:flex;align-items:center;justify-content:center;padding:1rem;">
+    <div class="mbox ma relative w-full max-w-md p-6 md:p-8">
+      <button onclick="closePlanModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full" style="background:rgba(255,255,255,.08);color:var(--muted);">✕</button>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold uppercase tracking-wide mb-5"
+           style="background:rgba(255,108,210,.07);border-color:rgba(255,108,210,.26);color:var(--pink);">
+        <span class="w-1.5 h-1.5 rounded-full animate-pulse inline-block" style="background:var(--pink);"></span>
+        24-Hour Trial
+      </div>
+
+      <h2 style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:1.85rem;margin:0 0 .3rem;">Try Everything.</h2>
+      <p style="font-size:.84rem;color:var(--muted);margin:0 0 1.1rem;">Full access for 24 hours. Zero commitment.</p>
+
+      <div class="grad-text" style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:2.7rem;line-height:1;margin-bottom:1.2rem;">
+        <span id="modal-trial-price">₹19</span> <span style="font-size:.88rem;font-weight:400;color:var(--muted);-webkit-text-fill-color:var(--muted);">one-time</span>
+      </div>
+
+      <ul class="space-y-2 mb-5" style="font-size:.83rem;">
+        <li class="flex items-center gap-2"><span class="chk cp">✓</span>Unlimited for 24 hours</li>
+        <li class="flex items-center gap-2"><span class="chk cp">✓</span>10,000+ Live channels &amp; unlimited VOD*</li>
+        <li class="flex items-center gap-2"><span class="chk cp">✓</span>FHD quality + anti-freeze tech</li>
+        <li class="flex items-center gap-2"><span class="chk cp">✓</span>Works on all devices</li>
+        <li class="flex items-center gap-2"><span class="chk cp">✓</span>WhatsApp setup help included</li>
+      </ul>
+
+      <div id="modal-rzp" class="w-full flex justify-center">
+        <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_SAYHvirg1Yh3jg" async></script></form>
+      </div>
+      <div id="modal-pp" class="hidden w-full">
+        <form action="https://www.paypal.com/ncp/payment/WPXW35TQNNXRC" method="post" target="_blank" style="display:flex;flex-direction:column;align-items:center;">
+          <button type="submit" class="btn-primary w-full py-3.5 rounded-xl" style="font-weight:800;">Get Trial — $1</button>
+        </form>
+      </div>
+
+      <p class="mt-3 text-center" style="font-size:.7rem;color:var(--muted);">No auto-renewal · <span id="modal-trial-price-sm">₹19</span> flat · Nothing else</p>
+
+      <hr class="modal-divider"/>
+      <p class="text-center" style="font-size:.76rem;color:var(--muted);margin-bottom:.8rem;">Ready to commit? Skip the trial →</p>
+
+      <div id="modal-rzp-m" class="w-full">
+        <a href="https://rzp.io/rzp/I5u4G0XI" target="_blank"
+           class="btn-ghost w-full block text-center py-3.5 rounded-xl" style="font-weight:700;font-size:.88rem;">
+          Get Monthly Plan — <span class="dyn-month">₹199</span>
+        </a>
+      </div>
+      <div id="modal-pp-m" class="hidden w-full">
+        <form action="https://www.paypal.com/ncp/payment/6FQX2HR2U7Q7C" method="post" target="_blank" style="display:flex;flex-direction:column;align-items:center;">
+          <button type="submit" class="btn-ghost w-full py-3.5 rounded-xl" style="font-weight:700;font-size:.88rem;">Get Monthly Plan — $3.49</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="table-wrap" style="margin-top:56px;">
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>DTH + OTTs</th>
-          <th style="color:var(--pink);">Zenora Play</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Monthly Cost</td><td>₹1,200+</td><td class="highlight">₹199</td></tr>
-        <tr><td>Live TV Channels</td><td>~500</td><td class="highlight">10,000+</td></tr>
-        <tr><td>Movies & Series</td><td>Split across apps</td><td class="highlight">✓ All in one place</td></tr>
-        <tr><td>Works on Phone</td><td>DTH: ✕</td><td class="highlight">✓ Yes</td></tr>
-        <tr><td>FHD Quality</td><td>Sometimes</td><td class="highlight">✓ Always</td></tr>
-        <tr><td>Number of bills</td><td>4–6 separate bills</td><td class="highlight">✓ Just one</td></tr>
-        <tr><td>Lock-in Contract</td><td>Annual / 6-month</td><td class="highlight">✓ None</td></tr>
-        <tr><td>Installation needed</td><td>DTH: Yes + wait</td><td class="highlight">✓ None · Instant</td></tr>
-      </tbody>
-    </table>
-    <div style="text-align:center;margin-top:32px;">
-      <button class="btn-primary" onclick="document.getElementById('trialModal').classList.add('open')">Switch to Zenora Play →</button>
-    </div>
-  </div>
-</section>
-
-<!-- STEPS -->
-<section class="pad">
-  <div class="section-header">
-    <span class="label">Quickstart</span>
-    <h2>Up & Running in 5 Minutes</h2>
-    <p>No dish. No technician. No waiting.</p>
-  </div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <h3>Choose a Plan</h3>
-      <p>Trial for ₹19 or Monthly for ₹199. Secure Razorpay checkout — takes 30 seconds.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <h3>Get Credentials</h3>
-      <p>Login details sent to WhatsApp & email within ~5 minutes of payment.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <h3>Start Streaming</h3>
-      <p>Open the app, log in — 10,000+ channels live instantly. FHD. Zero buffering.</p>
-    </div>
-  </div>
-  <div class="support-note">
-    <span class="icon">💬</span>
-    <span><strong>Stuck during setup?</strong> Our WhatsApp team walks you through installation live — completely free, every step of the way.</span>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="pad">
-  <div class="section-header">
-    <span class="label">Social Proof</span>
-    <h2>Real Subscribers. Real Reviews.</h2>
-    <p>★★★★★ 4.8 / 5 based on 2,400+ subscribers</p>
-  </div>
-  <div class="reviews">
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p>"Switched from Tata Sky 4 months ago. Saving ₹450/month and getting way more channels. Star Sports HD never buffers during IPL."</p>
-      <div class="reviewer"><div class="avatar">R</div><div class="rev-info"><strong>Rahul M.</strong><br><small>New Delhi · 4 months</small></div></div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p>"Tried the trial to test. Bought monthly the same evening — quality blew me away. Cancelled Netflix and Hotstar next day."</p>
-      <div class="reviewer"><div class="avatar">P</div><div class="rev-info"><strong>Priya S.</strong><br><small>Mumbai · 2 months</small></div></div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <p>"Cancelled cable. Setup took 5 minutes. Works on Android TV box and phone. Replaced 3 OTT subscriptions at once."</p>
-      <div class="reviewer"><div class="avatar">A</div><div class="rev-info"><strong>Arjun K.</strong><br><small>Bengaluru · 6 weeks</small></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="pad">
-  <div class="section-header">
-    <span class="label">What's Included</span>
-    <h2>Everything Included. No Add-ons.</h2>
-    <p>Every feature in every plan. No upsells, no hidden charges.</p>
-  </div>
-  <div class="features">
-    <div class="feat"><div class="feat-icon">📡</div><h4>10,000+ Channels</h4><p>Live TV, sports, news — all genres covered.</p></div>
-    <div class="feat"><div class="feat-icon">🎬</div><h4>FHD Quality</h4><p>SD / HD / FHD streams on every channel.</p></div>
-    <div class="feat"><div class="feat-icon">⚡</div><h4>Anti-Freezing</h4><p>Auto-reconnect tech keeps streams smooth.</p></div>
-    <div class="feat"><div class="feat-icon">🎞</div><h4>Unlimited VOD</h4><p>Movies & series — watch on demand, anytime.</p></div>
-    <div class="feat"><div class="feat-icon">📱</div><h4>All Devices</h4><p>Android, iOS, TV, Fire Stick, PC — all supported.</p></div>
-    <div class="feat"><div class="feat-icon">🛡</div><h4>99.9% Uptime</h4><p>Monitored servers with near-zero downtime.</p></div>
-    <div class="feat"><div class="feat-icon">🏆</div><h4>Premium Channels</h4><p>Sports, PPV events & exclusive content.</p></div>
-    <div class="feat"><div class="feat-icon">💬</div><h4>Live Support</h4><p>WhatsApp + Telegram help, anytime you need.</p></div>
-  </div>
-</section>
-
-<!-- DEVICES -->
-<section class="pad">
-  <div class="section-header">
-    <span class="label">Compatibility</span>
-    <h2>Works on Every Screen You Own</h2>
-    <p>OTT Navigator · TiviMate · XCIPTV · IPTV Smarters · and more</p>
-  </div>
-  <div class="devices" style="max-width:760px;margin:0 auto;">
-    <div class="device"><span class="d-icon">📱</span>Android Phone</div>
-    <div class="device"><span class="d-icon">🍎</span>iPhone / iPad</div>
-    <div class="device"><span class="d-icon">📺</span>Android TV</div>
-    <div class="device"><span class="d-icon">🔥</span>Fire TV Stick</div>
-    <div class="device"><span class="d-icon">💻</span>Windows / Mac</div>
-    <div class="device"><span class="d-icon">🖥</span>Samsung / LG TV</div>
-    <div class="device"><span class="d-icon">📦</span>Android Box</div>
-    <div class="device"><span class="d-icon">🎮</span>Any IPTV Player</div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pad" id="pricing">
-  <div class="section-header">
-    <span class="label">Plans</span>
-    <h2>Choose Your Plan</h2>
-    <p>Start with the trial. Upgrade whenever you're ready.</p>
-  </div>
-  <div class="pricing">
-    <div class="plan">
-      <div class="plan-badge" style="background:var(--glass);border:1px solid var(--glass-border);color:rgba(255,255,255,0.7);">Start Here</div>
-      <h3>24-Hour Trial</h3>
-      <div class="plan-price">₹19<span> one-time</span></div>
-      <div class="plan-sub">no renewal · pay once</div>
-      <ul>
-        <li>Full 24-hour unlimited access</li>
-        <li>10,000+ Live channels & unlimited VOD</li>
-        <li>FHD quality with anti-freeze tech</li>
-        <li>Works on all your devices</li>
-        <li>WhatsApp setup support included</li>
-      </ul>
-      <button class="btn-plan outline" onclick="document.getElementById('trialModal').classList.add('open')">Get Trial — ₹19</button>
-    </div>
-    <div class="plan featured">
-      <div class="plan-badge">Best Value</div>
-      <h3>Premium Monthly</h3>
-      <div class="plan-price">₹199<span>/month</span></div>
-      <div class="plan-sub">cancel anytime · no penalty</div>
-      <ul>
-        <li>Everything in trial, no time limit</li>
-        <li>Priority server access</li>
-        <li>Ongoing WhatsApp support</li>
-        <li>Replaces Cable + all OTTs</li>
-        <li>Cancel anytime, no penalty</li>
-      </ul>
-      <a href="https://rzp.io/rzp/I5u4G0XI" class="btn-plan solid" style="display:block;text-align:center;text-decoration:none;">Get Monthly — ₹199</a>
-    </div>
-  </div>
-  <p style="text-align:center;margin-top:24px;font-size:0.82rem;color:rgba(255,255,255,0.4);">💡 Try the ₹19 trial first — if you love it, upgrade to monthly in 30 seconds.</p>
-</section>
-
-<!-- FAQ -->
-<section class="pad">
-  <div class="section-header">
-    <span class="label">FAQ</span>
-    <h2>Your Questions, Answered</h2>
-  </div>
-  <div class="faq-list">
-    <details>
-      <summary>Will it work on my device?</summary>
-      <div class="faq-body">Yes. Works on Android phones, Android TV boxes, iPhone, iPad, Fire TV Stick, Samsung/LG Smart TVs, Windows and Mac. The ₹19 trial lets you test on your exact device — zero risk.</div>
-    </details>
-    <details>
-      <summary>Does this replace Netflix, Hotstar and DTH?</summary>
-      <div class="faq-body">For most users, yes. Zenora Play includes 10,000+ live channels (including sports, news, entertainment) plus movies and TV shows. Our subscribers commonly cancel their cable and 2-3 OTT subscriptions after switching.</div>
-    </details>
-    <details>
-      <summary>How fast is access after payment?</summary>
-      <div class="faq-body">Usually within 5 minutes. Credentials sent to WhatsApp & email. If delayed, message us on WhatsApp and we'll resolve immediately.</div>
-    </details>
-    <details>
-      <summary>Does the trial auto-renew?</summary>
-      <div class="faq-body">No. It's a one-time payment. After 24 hours your access expires and nothing is charged. Upgrade to monthly whenever you're ready.</div>
-    </details>
-    <details>
-      <summary>What if it buffers?</summary>
-      <div class="faq-body">Anti-freeze tech handles most hiccups automatically. We recommend 10 Mbps+ for FHD; 4G/5G works for most channels. WhatsApp support troubleshoots in real-time if needed.</div>
-    </details>
-    <details>
-      <summary>Multiple devices at once?</summary>
-      <div class="faq-body">Each subscription supports one stream at a time. Switch freely between devices — just not simultaneously. Additional subscriptions needed for concurrent streams.</div>
-    </details>
-  </div>
-</section>
-
-<!-- CTA BANNER -->
-<div class="cta-banner">
-  <h2>Stream Everything.<br><span style="background:linear-gradient(90deg,var(--pink),var(--sky),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Pay Less Than One OTT.</span></h2>
-  <p>Try ₹19 for 24 hours. No auto-renewal. No contract.<br>Or jump straight to ₹199/month and save ₹1,000+ vs separate subscriptions.</p>
-  <div class="hero-ctas">
-    <button class="btn-primary" onclick="document.getElementById('trialModal').classList.add('open')">🚀 Get Started</button>
-    <a href="#" class="btn-secondary">📲 Download App</a>
-  </div>
-  <div class="cta-trust">
-    <span>Instant delivery</span>
-    <span>WhatsApp support</span>
-    <span>No hidden fees</span>
-    <span>Cancel anytime</span>
+<!-- PRIVACY -->
+<div id="pMod" class="fixed inset-0 z-[101] hidden overflow-y-auto">
+  <div class="max-w-3xl mx-auto mt-20 mb-10 card p-6 md:p-8 mx-4">
+    <h2 style="font-family:'Satoshi',sans-serif;font-weight:800;font-size:1.5rem;margin:0 0 1rem;">Privacy Policy</h2>
+    <p style="font-size:.83rem;line-height:1.75;color:var(--txt2);">We care deeply about your privacy. Zenora Play collects only the minimum information needed to deliver IPTV services.<br/><br/>Your personal data is never sold, shared, or misused. All reasonable security practices are followed.<br/><br/>Data is strictly used for service access, support, and communication.</p>
+    <button onclick="closeInfoModal()" class="btn-primary mt-6 px-6 py-2.5 rounded-xl" style="font-size:.85rem;font-weight:700;">Close</button>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="logo" style="font-size:1.1rem;">Zenora<span style="color:var(--pink);">Play</span></div>
-  <div class="footer-links">
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms & Conditions</a>
-    <a href="#">Contact Us</a>
-    <a href="#">Help Center</a>
-  </div>
-  <div>© 2026 Zenora Play · All rights reserved</div>
-</footer>
-
-<!-- TRIAL MODAL -->
-<div class="modal-overlay" id="trialModal">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('trialModal').classList.remove('open')">✕</button>
-    <h2>Try Everything.</h2>
-    <p style="color:rgba(255,255,255,0.55);margin-bottom:24px;font-size:0.9rem;">Full access for 24 hours. Zero commitment.</p>
-    <div style="font-size:2.6rem;font-weight:900;margin-bottom:4px;">₹19 <span style="font-size:1rem;font-weight:400;color:rgba(255,255,255,0.5);">one-time</span></div>
-    <ul style="list-style:none;margin:20px 0 28px;display:flex;flex-direction:column;gap:8px;">
-      <li style="display:flex;gap:10px;font-size:0.9rem;"><span style="color:var(--pink);font-weight:700;">✓</span> Unlimited for 24 hours</li>
-      <li style="display:flex;gap:10px;font-size:0.9rem;"><span style="color:var(--pink);font-weight:700;">✓</span> 10,000+ Live channels & unlimited VOD</li>
-      <li style="display:flex;gap:10px;font-size:0.9rem;"><span style="color:var(--pink);font-weight:700;">✓</span> FHD quality + anti-freeze tech</li>
-      <li style="display:flex;gap:10px;font-size:0.9rem;"><span style="color:var(--pink);font-weight:700;">✓</span> Works on all devices</li>
-      <li style="display:flex;gap:10px;font-size:0.9rem;"><span style="color:var(--pink);font-weight:700;">✓</span> WhatsApp setup help included</li>
-    </ul>
-    <button class="btn-plan solid" style="width:100%;margin-bottom:14px;">Get Trial — ₹19</button>
-    <div style="text-align:center;font-size:0.78rem;color:rgba(255,255,255,0.35);margin-bottom:20px;">No auto-renewal · ₹19 flat · Nothing else</div>
-    <hr style="border:none;border-top:1px solid var(--glass-border);margin-bottom:20px;" />
-    <div style="text-align:center;font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:12px;">Ready to commit? Skip the trial →</div>
-    <a href="https://rzp.io/rzp/I5u4G0XI" class="btn-plan outline" style="display:block;text-align:center;text-decoration:none;">Get Monthly Plan — ₹199</a>
+<!-- TERMS -->
+<div id="tMod" class="fixed inset-0 z-[101] hidden overflow-y-auto">
+  <div class="max-w-4xl mx-auto mt-16 mb-10 card p-6 md:p-8 mx-4">
+    <h2 style="font-family:'Satoshi',sans-serif;font-weight:800;font-size:1.5rem;margin:0 0 .4rem;">Terms &amp; Conditions</h2>
+    <p style="font-size:.78rem;color:var(--muted);margin:0 0 1.2rem;">Last Updated: 07 February 2026</p>
+    <div style="font-size:.82rem;line-height:1.75;color:var(--txt2);" class="space-y-3">
+      <p><strong style="color:#fff;">1. Acceptance</strong> — You must be at least 18. If you disagree, discontinue use.</p>
+      <p><strong style="color:#fff;">2. Service</strong> — IPTV-based streaming: live TV, movies, series &amp; VOD.</p>
+      <p><strong style="color:#fff;">3. Payments</strong> — Prices in INR. No auto-renew unless stated. No sharing.</p>
+      <p><strong style="color:#fff;">4. Refunds</strong> — All purchases are final. Refunds only at our discretion for failures.</p>
+      <p><strong style="color:#fff;">5. User Responsibilities</strong> — No sharing, hacking, reselling, or abuse.</p>
+      <p><strong style="color:#fff;">6. Content Disclaimer</strong> — Zenora Play does not host media. Content is third-party sourced.</p>
+      <p><strong style="color:#fff;">7. Governing Law</strong> — Indian laws apply.</p>
+    </div>
+    <button onclick="closeInfoModal()" class="btn-primary mt-6 px-6 py-2.5 rounded-xl" style="font-size:.85rem;font-weight:700;">Close</button>
   </div>
 </div>
 
+<!-- CONTACT -->
+<div id="cMod" class="fixed inset-0 z-[101] hidden flex items-center justify-center px-4">
+  <div class="card w-full max-w-xs p-6 text-center" style="pointer-events:auto;">
+    <h2 style="font-family:'Satoshi',sans-serif;font-weight:800;font-size:1.3rem;margin:0 0 1.2rem;">Contact Us</h2>
+    <div class="space-y-2.5">
+      <a href="https://t.me/EliteStocksBot" target="_blank" class="btn-ghost w-full block py-3 rounded-xl" style="font-size:.87rem;">✈ Telegram</a>
+      <a href="mailto:support@zenoraplay.com" class="btn-ghost w-full block py-3 rounded-xl" style="font-size:.87rem;">✉ Email Us</a>
+      <a href="https://wa.me/14256157751" target="_blank" style="display:block;width:100%;padding:.75rem;border-radius:.75rem;font-weight:600;font-size:.87rem;text-decoration:none;background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.2);color:var(--green);text-align:center;">💬 WhatsApp</a>
+    </div>
+    <button onclick="closeInfoModal()" class="mt-5 text-sm" style="color:var(--muted);">Close</button>
+  </div>
+</div>
+
+<!-- TRENDING MODAL -->
+<div id="trendModal" style="display:none;position:fixed;inset:0;z-index:102;">
+  <div class="fixed inset-0" style="background:rgba(0,0,0,.88);" onclick="closeTrendingModal()"></div>
+  <div style="position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;" class="sm:items-center">
+    <div class="tmbox sa relative w-full max-w-lg rounded-t-3xl sm:rounded-2xl overflow-y-auto z-10 mx-0 sm:mx-4" style="pointer-events:auto;max-height:92vh;">
+      <div class="relative w-full" style="aspect-ratio:16/7;overflow:hidden;background:#0B0617;flex-shrink:0;">
+        <img id="t-banner" src="" alt="" loading="lazy" class="w-full h-full object-cover"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,6,23,1) 0%,rgba(11,6,23,.25) 50%,transparent 100%);pointer-events:none;"></div>
+        <button onclick="closeTrendingModal()" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full text-white" style="background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.14);">✕</button>
+        <div class="absolute bottom-3 left-4 flex gap-2">
+          <span id="t-rating" class="px-2.5 py-0.5 rounded-full text-xs font-semibold" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);"></span>
+          <span id="t-type"   class="px-2.5 py-0.5 rounded-full text-xs font-semibold" style="background:rgba(255,108,210,.15);border:1px solid rgba(255,108,210,.26);color:var(--pink);"></span>
+        </div>
+      </div>
+      <div class="p-5 md:p-6">
+        <h2 id="t-title" style="font-family:'Satoshi',sans-serif;font-weight:800;font-size:1.35rem;margin:0 0 .25rem;"></h2>
+        <p  id="t-meta"  style="font-size:.74rem;color:var(--muted);margin:0 0 .7rem;"></p>
+        <p  id="t-overview" style="font-size:.82rem;line-height:1.65;color:var(--txt2);margin:0 0 1.2rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;"></p>
+        <button onclick="closeTrendingModal();setTimeout(openPlanModal,90);" class="btn-primary w-full py-4 rounded-xl" style="font-weight:800;">▶ Watch on Zenora Play</button>
+        <p class="mt-3 mb-1 text-center" style="font-size:.7rem;color:var(--muted);">Start with 24-hr trial · <span class="dyn-trial">₹19</span> · no commitment</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SCRIPTS ═══════ -->
 <script>
-  // Close modal on overlay click
-  document.getElementById('trialModal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('open');
-  });
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var TMDB='a077542f225229a8f56eb81306bf2e7c';
 
-  // Scroll-triggered fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
+  /* ── LOCALE ── */
+  var tz=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  var isIndia=(tz==='Asia/Calcutta'||tz==='Asia/Kolkata');
+
+  /* ── DYNAMIC PRICING ── */
+  var P={trial:'₹19',month:'₹199',dthCost:'₹1,200+',eliteCost:'₹199',savings:'₹1,000+',dth:'₹500–₹800',netflix:'₹149–₹649',hotstar:'₹299/mo',prime:'₹149/mo',cmpMonthly:'₹199'};
+  if(!isIndia){
+    P={trial:'$1',month:'$3.49',dthCost:'$15+',eliteCost:'$3.49',savings:'$12+',dth:'$8–$15',netflix:'$7–$18',hotstar:'$3–$8',prime:'$3/mo',cmpMonthly:'$3.49'};
+  }
+
+  function applyPrices(){
+    document.querySelectorAll('.dyn-trial').forEach(function(el){el.textContent=P.trial;});
+    document.querySelectorAll('.dyn-month').forEach(function(el){el.textContent=P.month;});
+    var els={
+      'cmp-monthly-price':P.cmpMonthly,'cmp-dth-cost':P.dthCost,'cmp-elite-cost':P.eliteCost,
+      'savings-txt':P.savings,'final-savings':P.savings,
+      'p-trial-price':P.trial,'p-month-price':P.month,
+      'modal-trial-price':P.trial,'modal-trial-price-sm':P.trial
+    };
+    Object.keys(els).forEach(function(id){var el=$(id);if(el)el.textContent=els[id];});
+    document.querySelectorAll('.price-dth').forEach(function(el){el.textContent=P.dth;});
+    document.querySelectorAll('.price-netflix').forEach(function(el){el.textContent=P.netflix;});
+    document.querySelectorAll('.price-hotstar').forEach(function(el){el.textContent=P.hotstar;});
+    document.querySelectorAll('.price-prime').forEach(function(el){el.textContent=P.prime;});
+  }
+  applyPrices();
+
+  /* ── PAYMENT METHOD SWITCH ── */
+  if(!isIndia){
+    ['modal-rzp','p-rzp-t'].forEach(function(id){var el=$(id);if(el)el.style.display='none';});
+    ['modal-pp','p-pp-t'].forEach(function(id){var el=$(id);if(el)el.classList.remove('hidden');});
+    var rm=$('p-rzp-m');if(rm)rm.style.display='none';
+    var pm=$('p-pp-m');if(pm)pm.classList.remove('hidden');
+    var mrm=$('modal-rzp-m');if(mrm)mrm.style.display='none';
+    var mpm=$('modal-pp-m');if(mpm)mpm.classList.remove('hidden');
+  }
+
+  /* ── MODALS ── */
+  window.openPlanModal=function(){
+    document.body.classList.add('modal-open');
+    $('planBack').classList.remove('hidden');
+    $('planModal').classList.remove('hidden');
+  };
+  window.closePlanModal=function(){
+    document.body.classList.remove('modal-open');
+    $('planBack').classList.add('hidden');
+    $('planModal').classList.add('hidden');
+  };
+  window.openTrialModal=window.openPlanModal;
+  window.openInfoModal=function(id){
+    document.body.classList.add('modal-open');
+    $('infoBack').classList.remove('hidden');
+    $(id).classList.remove('hidden');
+  };
+  window.closeInfoModal=function(){
+    document.body.classList.remove('modal-open');
+    $('infoBack').classList.add('hidden');
+    ['pMod','tMod','cMod'].forEach(function(id){$(id).classList.add('hidden');});
+  };
+  window.closeTrendingModal=function(){
+    document.body.classList.remove('modal-open');
+    $('trendModal').style.display='none';
+  };
+
+  /* ── APP STORE ── */
+  window.openAppStore=function(){
+    var ua=navigator.userAgent.toLowerCase();
+    if(ua.indexOf('android')>-1)
+      window.open(ua.indexOf('tv')>-1?'https://play.google.com/store/apps/details?id=com.myiptvonline.implayer':'https://play.google.com/store/apps/details?id=com.myiptvonline.implayerm','_blank');
+    else if(ua.indexOf('iphone')>-1||ua.indexOf('ipad')>-1)
+      window.open('https://apps.apple.com/us/app/implayer-iptv-player/id6695725513','_blank');
+    else
+      window.open('https://apps.microsoft.com/detail/9N22R9S68M0Z?hl=en-us&gl=IN&ocid=pdpshare','_blank');
+  };
+
+  /* ── FAQ ── */
+  document.querySelectorAll('.fq').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var open=btn.getAttribute('aria-expanded')==='true';
+      document.querySelectorAll('.fq[aria-expanded="true"]').forEach(function(b){
+        if(b!==btn){b.setAttribute('aria-expanded','false');var t=$(b.getAttribute('aria-controls'));if(t)t.classList.remove('open');}
+      });
+      btn.setAttribute('aria-expanded',String(!open));
+      var body=$(btn.getAttribute('aria-controls'));
+      if(body)body.classList.toggle('open',!open);
     });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.step, .review-card, .feat, .plan, .comp-card, details').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(22px)';
-    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    observer.observe(el);
   });
+
+  /* ── MARQUEE ── */
+  var chs=['Star Sports 1','Star Sports 2','ESPN','Star Sports HD','Sony LIV','Zee TV','Colors','Star Plus','Sun TV','Asianet','Maa TV','Star Vijay','Sony SAB','&TV','Star Movies','Sony Movies','HBO','Discovery','National Geographic','Animal Planet','BBC World','CNN','NDTV 24x7','Aaj Tak','Republic TV','MTV','VH1','beIN Sports','Sky Sports','Eurosport','History Channel','Disney Channel','Cartoon Network'];
+  var trk=$('mqTrack');
+  if(trk){
+    var d=chs.concat(chs);
+    trk.innerHTML=d.map(function(ch){
+      return'<span style="display:inline-flex;align-items:center;gap:.32rem;padding:.38rem .85rem;background:rgba(86,65,255,.05);border:1px solid rgba(86,65,255,.14);border-radius:99px;font-size:.74rem;font-weight:600;color:rgba(172,208,255,.45);white-space:nowrap;">📺 '+ch+'</span>';
+    }).join('');
+  }
+
+  /* ── TRENDING ── */
+  function loadTrending(){
+    fetch('https://api.themoviedb.org/3/trending/all/week?api_key='+TMDB)
+      .then(function(r){return r.json();})
+      .then(function(data){
+        var row=$('tRow');if(!row)return;
+        var frag=document.createDocumentFragment();
+        data.results.slice(0,10).forEach(function(item,i){
+          if(!item.poster_path)return;
+          var div=document.createElement('div');div.className='tc';
+          div.innerHTML='<div class="tn">'+(i+1)+'</div><img src="https://image.tmdb.org/t/p/w342'+item.poster_path+'" alt="'+((item.title||item.name||'').replace(/"/g,''))+'" loading="lazy" width="132"/>';
+          div.addEventListener('click',function(){openTM(item);},{passive:true});
+          frag.appendChild(div);
+        });
+        row.appendChild(frag);
+      }).catch(function(e){console.warn('Trending failed',e);});
+  }
+
+  function openTM(item){
+    document.body.classList.add('modal-open');
+    $('t-title').textContent=item.title||item.name||'';
+    $('t-meta').textContent=(item.release_date||item.first_air_date||'—')+' · TMDB';
+    $('t-overview').textContent=item.overview||'No description.';
+    $('t-rating').textContent='⭐ '+(item.vote_average?item.vote_average.toFixed(1):'N/A');
+    $('t-type').textContent=item.media_type==='tv'?'TV Show':'Movie';
+    var p=item.backdrop_path||item.poster_path;
+    $('t-banner').src=p?'https://image.tmdb.org/t/p/w780'+p:'';
+    $('trendModal').style.display='block';
+  }
+  window.openTrendingModal=openTM;
+
+  var tRow=$('tRow'),tL=$('tL'),tR=$('tR');
+  if(tRow){
+    tR&&tR.addEventListener('click',function(){tRow.scrollBy({left:tRow.clientWidth*.85,behavior:'smooth'});});
+    tL&&tL.addEventListener('click',function(){tRow.scrollTo({left:0,behavior:'smooth'});});
+  }
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){closePlanModal();closeInfoModal();closeTrendingModal();}
+  });
+
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',loadTrending,{once:true});}
+  else{loadTrending();}
+})();
 </script>
 </body>
 </html>
